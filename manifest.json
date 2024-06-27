@@ -1,28 +1,20 @@
 {
-    "manifest_version": 3,
-    "name": "Cost Code Comparator",
-    "version": "1.0",
-    "description": "Compare highlighted cost codes to predefined categories.",
-    "permissions": [
-      "activeTab",
-      "storage"
-    ],
-    "background": {
-      "service_worker": "background.js"
-    },
-    "content_scripts": [
-      {
-        "matches": ["<all_urls>"],
-        "js": ["content.js"]
-      }
-    ],
-    "action": {
-      "default_popup": "popup.html",
-      "default_icon": {
-        "16": "images/icon16.png",
-        "48": "images/icon48.png",
-        "128": "images/icon128.png"
-      }
+  "manifest_version": 3,
+  "name": "Cost Code Analyzer",
+  "version": "1.0",
+  "permissions": ["activeTab"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://acc.autodesk.com/cost/forecast/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
     }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {}
   }
-  
+}
