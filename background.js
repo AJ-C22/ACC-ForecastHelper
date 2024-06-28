@@ -54,17 +54,17 @@ function getCategory(selectedText) {
 
     const typicalCodes = ["1.22.200", "1.22.500"];
     if (selectedText.length > 12) {
-        return 'unknown';
+        return 'UNKNOWN';
     } else if (linearCodes.some(code => selectedText.includes(code))) {
-        return 'linear';
+        return 'LINEAR';
     } else if (frontLoadedCodes.some(code => selectedText.includes(code))) {
-        return 'front loaded';
+        return 'FRONT LOADED';
     } else if (rearLoadedCodes.some(code => selectedText.includes(code))) {
-        return 'rear loaded';
+        return 'REAR LOADED';
     } else if (typicalCodes.some(code => selectedText.includes(code))) {
-        return 'typical';
+        return 'TYPICAL';
     } else {
-        return 'unknown';
+        return 'UNKNOWN';
     }
 }
 

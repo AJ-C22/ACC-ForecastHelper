@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Cost Code Analyzer",
+  "name": "ACC - Forecast Helper",
   "version": "1.0",
   "permissions": ["activeTab", "storage"],
   "background": {
@@ -21,6 +21,12 @@
   ],
   "action": {
     "default_popup": "popup.html",
-    "default_icon": {}
+    "default_icon": {
+        "16": "/icons/autodesk16.png",
+        "32": "/icons/autodesk32.png",
+        "48": "/icons/autodesk48.png",
+        "128": "/icons/autodesk128.png",
+        "256": "/icons/autodesk256.png"
+        }
   }
 }
