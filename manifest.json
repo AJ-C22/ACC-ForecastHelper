@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Cost Code Analyzer",
   "version": "1.0",
-  "permissions": ["activeTab"],
+  "permissions": ["activeTab", "storage"],
   "background": {
     "service_worker": "background.js"
   },
@@ -11,6 +11,12 @@
       "matches": ["https://acc.autodesk.com/cost/forecast/*"],
       "js": ["content.js"],
       "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["custom_popup.html", "custom_popup.js"],
+      "matches": ["<all_urls>"]
     }
   ],
   "action": {

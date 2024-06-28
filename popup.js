@@ -1,9 +1,9 @@
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-    if (request.message === "showPopup") {
-        let category = request.category;
-        console.log("Popup received category:", category);
-
-        // Display the category in the popup HTML (modify as per your popup.html structure)
-        document.getElementById("category").textContent = category;
-    }
+document.addEventListener('DOMContentLoaded', () => {
+    chrome.storage.local.get('category', (result) => {
+        if (result.category) {
+            document.getElementById('category').textContent = result.category;
+        } else {
+            document.getElementById('category').textContent = 'No category found';
+        }
+    });
 });

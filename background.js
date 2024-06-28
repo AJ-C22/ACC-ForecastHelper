@@ -1,38 +1,71 @@
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     console.log("Message received in background.js:", request);
 
     if (request.message === "highlightedCode") {
-        let highlightedCode = request.highlightedCode;
+        const highlightedCode = request.highlightedCode;
         console.log("Highlighted code:", highlightedCode);
 
-        // Determine category based on your logic (e.g., using getCategory function)
-        let category = getCategory(highlightedCode);
+        const category = getCategory(highlightedCode);
 
-        // Send response back to content script with category and position
-        sendResponse({
-            category: category,
-            position: request.position
+        // Store the category in local storage
+        chrome.storage.local.set({ category: category }, () => {
+            // Respond to the content script with the category
+            sendResponse({ category: category });
         });
+
+        // Keep the message channel open for sendResponse
+        return true;
     }
 });
 
 function getCategory(selectedText) {
-    // Implement your logic to compare selectedText with predefined arrays
-    // Example logic from earlier implementations
-    let linearCodes = ['1.01.010.OTH', '1.01.760.OTH']; 
-    let frontLoadedCodes = ['1.02.100.SUB', '1.03.100.MAT']; 
-    let rearLoadedCodes = ['1.32.900.SUB', '1.06.200.SUB']; 
-    let typicalCodes = ['1.09.200.SUB',]; 
+    const linearCodes = [
+        "1.01.010", "1.01.020", "1.01.030", "1.01.040", "1.01.210", "1.01.300", "1.01.310", "1.01.350",
+        "1.01.440", "1.01.510", "1.01.520", "1.01.525", "1.01.530", "1.01.540", "1.01.550", "1.01.740",
+        "1.01.760", "1.01.770", "1.01.780", "1.01.790", "1.05.500", "1.23.200", "1.23.300", "1.23.400",
+        "1.23.500", "1.23.600", "1.26.100", "2.50.010", "2.50.015", "2.50.017", "2.50.020", "2.50.030",
+        "2.50.031", "2.50.032", "2.50.033", "2.50.034", "2.50.035", "2.50.036", "2.50.037", "2.50.038",
+        "2.50.040", "2.50.041", "2.50.042", "2.50.045", "2.50.046", "2.50.047", "2.50.050", "2.50.051",
+        "2.50.052", "2.50.070", "2.50.071", "2.50.072", "2.50.090", "2.50.091", "2.50.092", "2.50.095",
+        "2.50.096", "2.50.097", "2.50.100", "2.50.200", "2.50.300", "2.50.400", "2.50.500", "2.50.600",
+        "2.50.650", "2.50.700", "2.50.800", "2.50.900", "2.50.951", "2.50.952", "2.50.975", "2.50.980",
+        "2.50.981", "2.50.982", "2.50.983", "2.50.984", "2.50.985", "2.50.986", "2.50.987", "2.50.988",
+        "2.50.989", "2.50.990", "2.50.991", "3.60.100", "3.60.200", "3.60.300", "3.60.400", "3.60.500",
+        "3.60.600", "3.60.800", "3.60.900", "4.70.010", "4.70.020", "4.70.100", "4.70.200", "4.70.300",
+        "4.70.310", "4.70.320", "4.70.330", "4.70.340", "4.70.350", "4.70.360", "4.70.370", "4.70.380",
+        "4.70.390", "4.70.399", "4.70.400", "4.70.410", "4.70.450", "4.70.500", "4.70.600", "4.70.610",
+        "4.70.620"
+    ];
 
-    if (linearCodes.includes(selectedText)) {
+    const frontLoadedCodes = [
+        "1.02.010", "1.02.100", "1.02.110", "1.02.120", "1.02.210", "1.02.300", "1.03.010", "1.03.100",
+        "1.03.200", "1.03.300", "1.03.350", "1.05.200", "1.06.100", "1.06.110", "1.06.120", "1.06.150",
+        "1.06.430", "1.14.100", "1.14.200", "1.23.700", "1.26.200", "1.31.200", "1.31.300", "1.31.400",
+        "1.33.100", "1.33.150", "1.33.200", "1.33.300", "1.33.400", "1.33.500", "1.33.550", "1.33.600"
+    ];
+
+    const rearLoadedCodes = [
+        "1.05.100", "1.06.200", "1.06.220", "1.06.500", "1.08.110", "1.08.500", "1.08.550", "1.08.600",
+        "1.08.700", "1.08.800", "1.09.200", "1.09.600", "1.09.800", "1.09.900", "1.10.100", "1.10.200",
+        "1.10.300", "1.10.400", "1.10.500", "1.10.600", "1.10.700", "1.10.800", "1.11.100", "1.11.120",
+        "1.11.230", "1.11.400", "1.12.100", "1.21.100", "1.21.500", "1.26.300", "1.27.100", "1.28.100",
+        "1.28.200", "1.32.100", "1.32.160", "1.32.170", "1.32.310", "1.32.900", "1.32.950"
+    ];
+
+    const typicalCodes = ["1.22.200", "1.22.500"];
+    if (selectedText.length > 12) {
+        return 'unknown';
+    } else if (linearCodes.some(code => selectedText.includes(code))) {
         return 'linear';
-    } else if (frontLoadedCodes.includes(selectedText)) {
+    } else if (frontLoadedCodes.some(code => selectedText.includes(code))) {
         return 'front loaded';
-    } else if (rearLoadedCodes.includes(selectedText)) {
+    } else if (rearLoadedCodes.some(code => selectedText.includes(code))) {
         return 'rear loaded';
-    } else if (typicalCodes.includes(selectedText)) {
+    } else if (typicalCodes.some(code => selectedText.includes(code))) {
         return 'typical';
     } else {
         return 'unknown';
     }
 }
+
+
