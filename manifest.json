@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "ACC - Forecast Helper",
-  "version": "1.0",
+  "version": "2.0",
   "permissions": ["storage", "scripting"],
   "background": {
     "service_worker": "background.js"
@@ -27,6 +27,6 @@
         "48": "/icons/autodesk48.png",
         "128": "/icons/autodesk128.png",
         "256": "/icons/autodesk256.png"
-    }
+        }
   }
 }
