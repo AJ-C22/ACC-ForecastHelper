@@ -16,10 +16,12 @@ document.addEventListener("mouseup", (event) => {
 });
 
 function injectCustomPopup() {
-    // Remove existing popup if any
+    // Check if the popup already exists
     const existingPopup = document.getElementById('custom-popup');
     if (existingPopup) {
-        existingPopup.remove();
+        // If it exists, just update the content
+        updatePopupContent();
+        return;
     }
 
     // Create a new iframe element for the popup
@@ -36,4 +38,18 @@ function injectCustomPopup() {
 
     // Append the iframe to the body
     document.body.appendChild(iframe);
+
+    // Add an event listener to toggle the popup visibility when clicked
+    iframe.addEventListener('click', () => {
+        if (iframe.style.display === 'none') {
+            iframe.style.display = 'block';
+        } else {
+            iframe.style.display = 'none';
+        }
+    });
+}
+
+function updatePopupContent() {
+    const iframe = document.getElementById('custom-popup');
+    iframe.contentWindow.postMessage('updatePopup', '*');
 }

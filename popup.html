@@ -3,9 +3,74 @@
 <head>
     <title>Cost Code Comparator</title>
     <script src="popup.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+            width: 600px;
+        }
+        h3, h4 {
+            color: #383b3d;
+        }
+        h3 {
+            border-bottom: 2px solid #383b3d;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+        }
+        div {
+            margin-bottom: 20px;
+        }
+        textarea {
+            width: calc(100% - 22px); /* Full width minus padding and border */
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+        }
+        button {
+            background-color: #383b3d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+            transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+        }
+        button:hover {
+            background-color: #cfd3d8;
+            color: black;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+        }
+    </style>
 </head>
 <body>
-    <h3>Highlighted Code Category:</h3>
-    <p id="category">Loading...</p>
+    <h3>Edit Distribution Lists</h3>
+    <div>
+        <h4>Linear Codes</h4>
+        <textarea id="linearCodes" rows="5"></textarea>
+        <button id="saveLinear">Save Linear Codes</button>
+    </div>
+    <div>
+        <h4>Front Loaded Codes</h4>
+        <textarea id="frontLoadedCodes" rows="5"></textarea>
+        <button id="saveFrontLoaded">Save Front Loaded Codes</button>
+    </div>
+    <div>
+        <h4>Rear Loaded Codes</h4>
+        <textarea id="rearLoadedCodes" rows="5"></textarea>
+        <button id="saveRearLoaded">Save Rear Loaded Codes</button>
+    </div>
+    <div>
+        <h4>Typical Codes</h4>
+        <textarea id="typicalCodes" rows="5"></textarea>
+        <button id="saveTypical">Save Typical Codes</button>
+    </div>
 </body>
 </html>
