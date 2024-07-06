@@ -34,22 +34,30 @@ function injectCustomPopup() {
     iframe.style.height = 'auto';
     iframe.style.zIndex = '10000';
     iframe.style.border = 'none';
+    iframe.style.backgroundColor = 'transparent';
+    iframe.allowTransparency = 'true'; 
     iframe.src = chrome.runtime.getURL('custom_popup.html');
 
     // Append the iframe to the body
     document.body.appendChild(iframe);
-
-    // Add an event listener to toggle the popup visibility when clicked
-    iframe.addEventListener('click', () => {
-        if (iframe.style.display === 'none') {
-            iframe.style.display = 'block';
-        } else {
-            iframe.style.display = 'none';
-        }
-    });
 }
 
 function updatePopupContent() {
     const iframe = document.getElementById('custom-popup');
-    iframe.contentWindow.postMessage('updatePopup', '*');
+    if (iframe) {
+        iframe.contentWindow.postMessage('updatePopup', '*');
+    }
 }
+
+// Listen for messages from the iframe
+window.addEventListener('message', (event) => {
+    if (event.data === 'updatePopup') {
+        chrome.storage.local.get('category', (data) => {
+            const category = data.category;
+            const iframe = document.getElementById('custom-popup');
+            if (iframe) {
+                iframe.contentWindow.postMessage({ category: category }, '*');
+            }
+        });
+    }
+});

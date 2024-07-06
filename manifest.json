@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "ACC - Forecast Helper",
   "version": "2.0",
-  "permissions": ["storage", "scripting"],
+  "permissions": ["storage"],
   "background": {
     "service_worker": "background.js"
   },
